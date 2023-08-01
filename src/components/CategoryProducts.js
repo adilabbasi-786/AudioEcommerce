@@ -1,9 +1,11 @@
-import "./Category.scss";
-import Products from "../Products/Products";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-const Category = (item) => {
+import Products from "./Products/Products";
+import PorductCard from "./PorductCard";
+
+export default function CategoryProducts() {
   const { id } = useParams();
+  console.log("id", id);
   const [data, setData] = useState([]);
   useEffect(() => {
     const getData = async () => {
@@ -15,15 +17,13 @@ const Category = (item) => {
     };
     getData();
   }, [id]);
-
   return (
-    <div className="category-main-content">
-      <div className="layout">
-        <div className="category-title">Category Title</div>
+    <div className="products-container">
+      <div className="products">
+        {data.map((item) => (
+          <PorductCard item={item} />
+        ))}
       </div>
-      {/* <Products innerPage={true} key={item.id} data={item.attributes} /> */}
     </div>
   );
-};
-
-export default Category;
+}

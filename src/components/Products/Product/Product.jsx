@@ -1,7 +1,8 @@
 import "./Product.scss";
-import Prod from "../../../assets/products/earbuds-prod-1.webp";
 import { useEffect, useState } from "react";
-const Product = () => {
+import { useNavigate } from "react-router-dom";
+const Product = ({ item }) => {
+  const navigate = useNavigate();
   const [data, setData] = useState([]);
   useEffect(() => {
     const getData = async () => {
@@ -16,7 +17,11 @@ const Product = () => {
     <>
       {data &&
         data.map((item) => (
-          <div className="product-card" key={item.id}>
+          <div
+            className="product-card"
+            key={item.id}
+            onClick={() => navigate(`/product/${item.id}`)}
+          >
             <div className="thumbnail">
               <img
                 src={`http://localhost:1337${item?.attributes?.img?.data[0]?.attributes?.url}`}

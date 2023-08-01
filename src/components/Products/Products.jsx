@@ -654,7 +654,12 @@ const Products = ({ innerPage, headingText }) => {
 
       <div className="products">
         {data.map((item) => (
-          <Product key={item.id} id={item.id} data={item.attributes} />
+          <Product
+            key={item.id}
+            id={item.id}
+            data={item.attributes}
+            item={item}
+          />
         ))}
       </div>
     </div>

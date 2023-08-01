@@ -2,6 +2,9 @@ import "./Home.scss";
 import Banner from "./Banner/Banner";
 import Category from "../Home/Category/Category";
 import Products from "../Products/Products";
+
+import { Context } from "../../Utils/Context";
+
 const Home = () => {
   return (
     <div>

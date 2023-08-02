@@ -10,9 +10,21 @@ import {
 } from "react-icons/fa";
 import Prod from "../../assets/products/earbuds-prod-2.webp";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { Context } from "../../Utils/Context";
 
 const SingleProduct = () => {
+  const [quantity, setQuantity] = useState(1);
+  const { handleAddToCart } = useContext(Context);
+  const increment = () => {
+    setQuantity((prevState) => prevState + 1);
+  };
+  const decrement = () => {
+    setQuantity((prevState) => {
+      if (prevState === 1) return 1;
+      return prevState - 1;
+    });
+  };
   const { id } = useParams();
   const [data, setData] = useState([]);
   useEffect(() => {
@@ -37,15 +49,21 @@ const SingleProduct = () => {
           </div>
           <div className="right">
             <span className="name">{data[0]?.attributes?.title}</span>
-            <span className="price">{data[0]?.attributes?.price}</span>
+            <span className="price">RS {data[0]?.attributes?.price}</span>
             <span className="desc">{data[0]?.attributes?.desc}</span>
             <div className="cart-buttons">
               <div className="quantity-buttons">
-                <span>-</span>
-                <span>5</span>
-                <span>+</span>
+                <span onClick={decrement}>-</span>
+                <span>{quantity}</span>
+                <span onClick={increment}>+</span>
               </div>
-              <button className="add-to-cart-button">
+              <button
+                className="add-to-cart-button"
+                onClick={() => {
+                  handleAddToCart(data[0], quantity);
+                  setQuantity(1);
+                }}
+              >
                 <FaCartPlus size={20} />
                 Add to cart
               </button>
@@ -54,7 +72,10 @@ const SingleProduct = () => {
             <div className="info-item">
               <span className="text-bold">
                 Category:
-                <span>HeadPhone</span>
+                <span>
+                  {""}
+                  {data[0]?.attributes?.categories?.data[0]?.attributes?.title}
+                </span>
               </span>
               <span className="text-bold">
                 Share:
@@ -68,7 +89,10 @@ const SingleProduct = () => {
             </div>
           </div>
         </div>
-        <RelatedProduct />
+        <RelatedProduct
+          productId={id}
+          categoryId={data[0]?.attributes?.categories?.data[0]?.id}
+        />
       </div>
     </div>
   );

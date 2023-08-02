@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Products from "./Products/Products";
 import PorductCard from "./PorductCard";
 
 export default function CategoryProducts() {
+  const navigate = useNavigate();
   const { id } = useParams();
   console.log("id", id);
   const [data, setData] = useState([]);

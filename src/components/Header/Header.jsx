@@ -7,8 +7,8 @@ import Search from "./Search/Search";
 import { Context } from "../../Utils/Context";
 import Cart from "../Cart/Cart";
 import "./Header.scss";
-import { NavLink, Link } from "react-router-dom";
 const Header = () => {
+  const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
   const [showCart, setShowcart] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
@@ -28,15 +28,15 @@ const Header = () => {
       <header className={`main-header ${scrolled ? "sticky-header" : ""}`}>
         <div className="header-content">
           <ul className="left">
-            <Link to="/">
-              <li>home</li>
-            </Link>
+            <li onClick={() => navigate("/")}>home</li>
+
             <li>About</li>
-            <NavLink to="/category/:id">
-              <li>Categories</li>
-            </NavLink>
+
+            <li>Categories</li>
           </ul>
-          <div className="center">Audio Store</div>
+          <div className="center" onClick={() => navigate("/")}>
+            Audio Store
+          </div>
           <div className="right">
             <TbSearch onClick={() => setShowSearch(true)} />
             <AiOutlineHeart />

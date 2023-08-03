@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 export const Context = createContext();
@@ -9,10 +9,18 @@ const AppContext = ({ children }) => {
   const [cartSubTotal, setCartSubTotal] = useState(0);
 
   const location = useLocation();
+  useEffect(() => {
+    let subTotal = 0;
+    cartItems.map(
+      (item) => (subTotal += item.attributes.price * item.attributes.quantity)
+    );
+    setCartSubTotal(subTotal);
+  }, [cartItems]);
+
   const handleAddToCart = (product, quantity) => {
     let items = [...cartItems];
-    let index = items.findIndex((p) => p.id === product.id);
-    if (index != -1) {
+    let index = items?.findIndex((p) => p.id === product?.id);
+    if (index !== -1) {
       items[index].attributes.quantity += quantity;
     } else {
       product.attributes.quantity = quantity;
@@ -20,21 +28,32 @@ const AppContext = ({ children }) => {
     }
     setCartItems(items);
   };
+
   const handleRemoveFromCart = (product) => {
     let items = [...cartItems];
-    let index = items.filter((p) => p.id !== product.id);
+    items = items?.filter((p) => p.id !== product?.id);
     setCartItems(items);
   };
-  const handleCartProductQuantity = (product, type) => {};
+
+  const handleCartProductQuantity = (type, product) => {
+    let items = [...cartItems];
+    let index = items?.findIndex((p) => p.id === product?.id);
+    if (type === "inc") {
+      items[index].attributes.quantity += 1;
+    } else if (type === "dec") {
+      if (items[index].attributes.quantity === 1) return;
+      items[index].attributes.quantity -= 1;
+    }
+    // setCartItems(items);
+  };
+
   return (
     <Context.Provider
       value={{
         cartItems,
         setCartItems,
         cartCount,
-        setCartCount,
         cartSubTotal,
-        setCartSubTotal,
         handleAddToCart,
         handleRemoveFromCart,
         handleCartProductQuantity,

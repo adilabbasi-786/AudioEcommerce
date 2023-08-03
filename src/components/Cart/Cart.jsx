@@ -4,8 +4,27 @@ import { BsCartX } from "react-icons/bs";
 import CartItem from "./CartItem/CartItem";
 import { useContext } from "react";
 import { Context } from "../../Utils/Context";
+import { loadStripe } from "@stripe/stripe-js";
+import { makePaymentRequest } from "../../Utils/api";
 const Cart = ({ setShowcart }) => {
+  const stripePromise = loadStripe(
+    `${process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY}`
+  );
   const { cartItems, cartSubTotal } = useContext(Context);
+
+  const handlePayment = async () => {
+    try {
+      const stripe = await stripePromise;
+      const res = await makePaymentRequest.post("", {
+        products: cartItems,
+      });
+      await stripe.redirectToCheckout({
+        sessionId: res.data.stripeSession.id,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="cart-panel">
       <div className="opac-layer"></div>
@@ -38,7 +57,9 @@ const Cart = ({ setShowcart }) => {
                 <span className=" text total">Rs {cartSubTotal}</span>
               </div>
               <div className="button">
-                <button className="checkout-cta">CheckOut</button>
+                <button className="checkout-cta" onClick={handlePayment}>
+                  CheckOut
+                </button>
               </div>
             </div>
           </>

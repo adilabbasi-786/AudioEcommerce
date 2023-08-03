@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Products from "../../Products/Products";
+import PorductCard from "../../PorductCard";
 const RelatedProducts = ({ productId, categoryId }) => {
   const [data, setData] = useState([]);
   useEffect(() => {
@@ -15,8 +16,9 @@ const RelatedProducts = ({ productId, categoryId }) => {
 
   return (
     <div className="related-products">
+      Related Products
       {data.map((item) => (
-        <Products headingText="Related Products" item={item} />
+        <PorductCard headingText="Related Products" item={item} />
       ))}
     </div>
   );

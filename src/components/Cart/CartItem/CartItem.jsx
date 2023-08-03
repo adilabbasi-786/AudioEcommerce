@@ -24,9 +24,13 @@ const CartItem = () => {
               onClick={() => handleRemoveFromCart(item)}
             />
             <div className="quantity-buttons">
-              <span onClick={handleCartProductQuantity("dec", item)}>-</span>
+              <span onClick={() => handleCartProductQuantity("dec", item)}>
+                -
+              </span>
               <span>{item.attributes.quantity}</span>
-              <span onClick={handleCartProductQuantity("inc", item)}>+</span>
+              <span onClick={() => handleCartProductQuantity("inc", item)}>
+                +
+              </span>
             </div>
             <div className="text">
               <span>{item.attributes.quantity}</span>

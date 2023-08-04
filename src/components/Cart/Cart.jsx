@@ -15,7 +15,7 @@ const Cart = ({ setShowcart }) => {
   const handlePayment = async () => {
     try {
       const stripe = await stripePromise;
-      const res = await makePaymentRequest.post("", {
+      const res = await makePaymentRequest.post("/api/orders", {
         products: cartItems,
       });
       await stripe.redirectToCheckout({
